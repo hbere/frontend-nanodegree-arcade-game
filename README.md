@@ -1,8 +1,8 @@
-* About
+# About:
 
 This is my Udacity Front-End Engineering course arcade game project.
 
-* Original documentation from [source](https://github.com/udacity/frontend-nanodegree-arcade-game)
+# Original documentation from [source](https://github.com/udacity/frontend-nanodegree-arcade-game):
 
 frontend-nanodegree-arcade-game
 ===============================
