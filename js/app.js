@@ -18,6 +18,7 @@ const xMin = xBlockLen * 0.5;
 const xMax = xBlockLen * (columns - 2);
 const yMin = yBlockLen * 0.5;
 const yMax = yBlockLen * (rows - 3);
+const collisionCoefficient = 0.7;
 
 // Enemies our player must avoid
 var Enemy = function() {
@@ -38,6 +39,12 @@ var Enemy = function() {
     this.y = yBlockLen * (getRandomIntInclusive(1,3) - 0.5);
 };
 
+Enemy.prototype.reinitialize = function() {
+    this.speed = Math.random() * (2 - 0.5) + 0.5;
+    this.x = -xBlockLen;
+    this.y = yBlockLen * (getRandomIntInclusive(1,3) - 0.5);
+}
+
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
@@ -45,10 +52,19 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += 3 * dt;
+
+    // Reinitialize enemy if offscreen
     if ( this.x > canvasX ) {
-        this.speed = Math.random() * (1 - 0.5) + 0.5;
-        this.x = -xBlockLen;
-        this.y = yBlockLen * (getRandomIntInclusive(1,3) - 0.5);
+        this.reinitialize();
+    }
+
+    // Handle collision with player if occurs
+    let xDist = Math.abs(this.x - player.x);
+    let yDist = Math.abs(this.y - player.y);
+    let xCollisionDistance = xBlockLen * collisionCoefficient;
+    let yCollisionDistance = xBlockLen * collisionCoefficient;
+    if (xDist <= xCollisionDistance && yDist <= yCollisionDistance) {
+        player.reinitialize();
     }
 };
 
@@ -83,6 +99,16 @@ class Player {
         } else if (key == 'right' && this.x <= xMax) {
             this.x += xBlockLen;
         } 
+
+        // Win (reinitialize) if made it to top row (water)
+        if (this.y < yMin) {
+            this.reinitialize();
+        }
+    }
+
+    reinitialize() {
+        this.x = 2 * xBlockLen;
+        this.y = 4.5 * yBlockLen;
     }
         
     render() {
@@ -104,8 +130,9 @@ class Player {
 let enemy1 = new Enemy;
 let enemy2 = new Enemy;
 let enemy3 = new Enemy;
+let enemy4 = new Enemy;
 
-let allEnemies = [enemy1, enemy2, enemy3];
+let allEnemies = [enemy1, enemy2, enemy3, enemy4];
 
 let player = new Player;
 
