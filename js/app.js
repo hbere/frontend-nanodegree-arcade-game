@@ -82,6 +82,14 @@ Enemy.prototype.update = function(dt) {
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  // TODO Refactor
+  // Comment from Udacity 10/18/18:
+  // If you take a look at this line and at the Player.render method, 
+  // you could see that both are pretty similar. Also, both Player 
+  // and Enemy have x, y and sprite properties. This means you could 
+  // create a superclass (for example: 'character') with those common 
+  // properties and method and then make Player and Enemy subclasses 
+  // of "character" using inheritance.
   setInterval(this.update(this.speed), 100);
 };
 
