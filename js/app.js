@@ -1,25 +1,25 @@
 // Global parameters
-const canvasX = 505;
-const canvasY = 606;
-const rows = 7; // inclused 0.5 unusable row at top and bottom
-const columns = 5;
-const xBlockLen = canvasX / columns;
-const yBlockLen = canvasY / rows;
-const xMin = xBlockLen * 0.5;
-const xMax = xBlockLen * (columns - 2);
-const yMin = yBlockLen * 0.5;
-const yMax = yBlockLen * (rows - 3);
-const collisionCoefficient = 0.7;
+const CANVAS_X = 505;
+const CANVAS_Y = 606;
+const ROWS = 7; // inclused 0.5 unusable row at top and bottom
+const COLUMNS = 5;
+const X_BLOCK_LEN = CANVAS_X / COLUMNS;
+const Y_BLOCK_LEN = CANVAS_Y / ROWS;
+const X_MIN = X_BLOCK_LEN * 0.5;
+const X_MAX = X_BLOCK_LEN * (COLUMNS - 2);
+const yMin = Y_BLOCK_LEN * 0.5;
+const Y_MAX = Y_BLOCK_LEN * (ROWS - 3);
+const COLLISION_COEFFICIENT = 0.7;
 
 // Getting a random integer between 2 numbers, [min, max)
 // source:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 // October 17, 2018
 function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-  }
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
 
 // Getting a random integer between 2 numbers, inclusive
 // source:
@@ -46,14 +46,14 @@ let Enemy = function() {
   // Vertical position; 0 = top *stone* row
   // 1 = middle
   // 2 = bottom
-  this.x = -xBlockLen;
-  this.y = yBlockLen * (getRandomIntInclusive(1, 3) - 0.5);
+  this.x = -X_BLOCK_LEN;
+  this.y = Y_BLOCK_LEN * (getRandomIntInclusive(1, 3) - 0.5);
 };
 
 Enemy.prototype.reinitialize = function() {
   this.speed = Math.random() * (2 - 0.5) + 0.5;
-  this.x = -xBlockLen;
-  this.y = yBlockLen * (getRandomIntInclusive(1, 3) - 0.5);
+  this.x = -X_BLOCK_LEN;
+  this.y = Y_BLOCK_LEN * (getRandomIntInclusive(1, 3) - 0.5);
 };
 
 // Update the enemy's position, required method for game
@@ -65,15 +65,15 @@ Enemy.prototype.update = function(dt) {
   this.x += 3 * dt;
 
   // Reinitialize enemy if offscreen
-  if (this.x > canvasX) {
+  if (this.x > CANVAS_X) {
     this.reinitialize();
   }
 
   // Handle collision with player if occurs
   let xDist = Math.abs(this.x - player.x);
   let yDist = Math.abs(this.y - player.y);
-  let xCollisionDistance = xBlockLen * collisionCoefficient;
-  let yCollisionDistance = xBlockLen * collisionCoefficient;
+  let xCollisionDistance = X_BLOCK_LEN * COLLISION_COEFFICIENT;
+  let yCollisionDistance = X_BLOCK_LEN * COLLISION_COEFFICIENT;
   if (xDist <= xCollisionDistance && yDist <= yCollisionDistance) {
     player.reinitialize();
   }
@@ -97,26 +97,26 @@ class Player {
       "images/char-pink-girl.png",
       "images/char-princess-girl.png"
     ];
-    let randSpriteNo = getRandomInt(0,spriteImages.length);
+    let randSpriteNo = getRandomInt(0, spriteImages.length);
     this.sprite = "images/char-boy.png";
-    this.x = 2 * xBlockLen;
-    this.y = 4.5 * yBlockLen;
+    this.x = 2 * X_BLOCK_LEN;
+    this.y = 4.5 * Y_BLOCK_LEN;
   }
 
   // Methods
   update(key) {
     // Move up/down within limits
     if (key == "up" && this.y >= yMin) {
-      this.y -= yBlockLen;
-    } else if (key == "down" && this.y <= yMax) {
-      this.y += yBlockLen;
+      this.y -= Y_BLOCK_LEN;
+    } else if (key == "down" && this.y <= Y_MAX) {
+      this.y += Y_BLOCK_LEN;
     }
 
     // Move left/right within limits
-    if (key == "left" && this.x >= xMin) {
-      this.x -= xBlockLen;
-    } else if (key == "right" && this.x <= xMax) {
-      this.x += xBlockLen;
+    if (key == "left" && this.x >= X_MIN) {
+      this.x -= X_BLOCK_LEN;
+    } else if (key == "right" && this.x <= X_MAX) {
+      this.x += X_BLOCK_LEN;
     }
 
     // Win (reinitialize) if made it to top row (water)
@@ -126,8 +126,8 @@ class Player {
   }
 
   reinitialize() {
-    this.x = 2 * xBlockLen;
-    this.y = 4.5 * yBlockLen;
+    this.x = 2 * X_BLOCK_LEN;
+    this.y = 4.5 * Y_BLOCK_LEN;
   }
 
   render() {
