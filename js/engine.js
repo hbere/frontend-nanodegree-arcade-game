@@ -1,3 +1,7 @@
+// Original source for this code: https://github.com/udacity/frontend-nanodegree-arcade-game
+// Date: 10/24/18
+// THANK YOU to the Udacity authors for this original code
+
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
  * draws the initial game board on the screen, and then calls the update and

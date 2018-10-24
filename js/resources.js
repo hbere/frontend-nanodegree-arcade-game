@@ -1,3 +1,7 @@
+// Original source for this code: https://github.com/udacity/frontend-nanodegree-arcade-game
+// Date: 10/24/18
+// THANK YOU to the Udacity authors for this original code
+
 /* Resources.js
  * This is simply an image loading utility. It eases the process of loading
  * image files so that they can be used within your game. It also includes

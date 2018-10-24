@@ -1,3 +1,7 @@
+// Original source for much of the following code: https://github.com/udacity/frontend-nanodegree-arcade-game
+// Date: 10/24/18
+// THANK YOU to the Udacity authors for this original code
+
 // Global parameters
 const CANVAS_X = 505;
 const CANVAS_Y = 606;
